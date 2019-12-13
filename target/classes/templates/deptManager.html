@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/springboot_13/jquery.js"></script>
+    <script type="text/javascript">
+        function del(deptId) {
+            alert(deptId)
+            $.post("/springboot_13/dept/del",{deptId:deptId},function (data) {
+                if(data){
+                    alert("删除成功");
+                    window.location.reload();
+                }
+            })
+        }
+        function updateShow(deptId) {
+            $.ajax({
+                url:"/springboot_13/dept/updateShow",
+                data:{deptId:deptId},
+                type:"post",
+                success:function (data) {
+                    for(var  i in data){
+                        $("input[name='"+i+"']").val(data[i]);
+                    }
+                }
+            })
+        }
+        var frmUrl = "";
+        function submits() {
+            var deptId = $("#deptId").val();
+            if(deptId != ""){
+                frmUrl = "/springboot_13/dept/updateSubmit";
+            }else{
+                frmUrl = "/springboot_13/dept/add";
+            }
+            $.ajax({
+                url:frmUrl,
+                type:"post",
+                data:
+                    {
+                        deptName:$("#deptName").val(),
+                        deptId:$("#deptId").val()
+                    },
+                success:function (data) {
+                    if(data){
+                        alert("操作成功");
+                        window.location.reload();
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<table border="1">
+    <thead>
+    <th>编号</th>
+    <th>名称</th>
+    <th>操作</th>
+    </thead>
+    <tbody th:each="d:${list}">
+    <tr>
+       <td th:text="${d.deptId}"></td>
+       <td th:text="${d.deptName}"></td>
+       <td>
+           <button th:onclick="'del('+${d.deptId}+')'">删除</button>
+           <button th:onclick="'updateShow('+${d.deptId}+')'">修改</button>
+       </td>
+    </tr>
+    </tbody>
+</table>
+<hr/>
+<table border="1">
+    <tbody>
+    <tr hidden>
+        <td>编号:</td>
+        <td><input type="text" id="deptId" name="deptId"/></td>
+    </tr>
+    <tr>
+        <td>名称:</td>
+        <td><input type="text" id="deptName" name="deptName"/></td>
+    </tr>
+    <tr >
+        <td></td>
+        <td>
+            <button type="button" th:onclick="'submits()'">提交</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

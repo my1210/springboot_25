@@ -1,0 +1,30 @@
+server:
+  servlet:
+    context-path: /springboot_13
+    path: /
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/sys_mmdb?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123@qwe
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  thymeleaf:
+    encoding: UTF-8
+    suffix: .html
+    mode: HTML
+    cache: true
+mybatis:
+  mapper-locations: classpath:/com/aaa/mapper/*.xml
+  type-aliases-package: com.aaa.entity
+mapper:
+  style: normal
+  not-empty: true
+  mappers: tk.mybatis.mapper.common.Mapper
+pagehelper:
+  params: count=countSql
+  support-methods-arguments: true
+  reasonable: true
+  helper-dialect: mysql
